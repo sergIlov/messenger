@@ -9,11 +9,5 @@ html
 
   body
     .container
-      ul.nav.nav-pills
-        li.nav-item.active role="presentation"
-          a.nav-link href='#' = t('Profile')
-        li.nav-item role="presentation"
-          a.nav-link href='#' = t('Messages')
-        li.nav-item role="presentation"
-          a.nav-link href=destroy_user_session_path data-method="delete" = t('Logout')
+      == render 'layouts/menu' if current_user
       = yield

@@ -32,11 +32,16 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'slim'
 gem 'bootstrap'
+gem 'rails-assets-tether', '>= 1.1.0'
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'inherited_resources', github: 'activeadmin/inherited_resources'
 gem 'devise'
-
+gem 'devise-bootstrap-views'
+gem 'annotate'
+gem 'simple_form'
+gem 'bootstrap3_autocomplete_input'
+gem 'react-rails'
       
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -56,6 +61,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
+  gem 'awesome_print'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,0 +1,6 @@
+.form-group
+  = simple_form_for(@conversation) do |f|
+    = f.error_notification
+    = f.input :second_user, hint: 'Start typing email', as: :autocomplete, source_query: autocomplete_user_email_users_path
+    /= f.input :second_user_id
+    = f.submit 'Start'

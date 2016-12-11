@@ -1,0 +1,22 @@
+.row
+  .col-sm-8
+    .panel.panel-default
+      .panel-heading
+        h4 = t('New messages')
+        .panel-body
+          - if @new_messages.count.nonzero?
+            == render @new_messages, reply: true
+          - else
+            = t('You do not have new messages')
+
+  .col-sm-4
+    .panel.panel-default
+      .panel-heading
+        h4 = t('Conversations')
+      .panel-body
+        == react_component('ConversationsList', conversations: conversations_react_params(@conversations))
+
+
+        == render @conversations
+        .btn-group
+          a.btn.btn-default href=new_conversation_path = t('Start new conversation')

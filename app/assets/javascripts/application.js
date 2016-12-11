@@ -12,6 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+//= require tether
 //= require bootstrap
+//= require bootstrap3-typeahead.min
+//= require bootstrap3-autocomplete-input.min
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .

@@ -1,0 +1,8 @@
+.row
+  .col-sm-12
+    .panel.panel-default
+      .panel-heading
+        h4 = "Conversation with #{@conversation.companion(current_user).email}"
+      .panel-body
+        == render 'messages/form', conversation: @conversation
+        .list-group == render @messages
