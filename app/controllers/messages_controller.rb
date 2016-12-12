@@ -1,15 +1,22 @@
 class MessagesController < ApplicationController
+  include MessagesHelper
+  
   def index
     @conversation = current_user.conversations.find(params[:conversation_id])
-    @messages = @conversation.messages
+    @messages = load_messages
+    respond_to do |format|
+      format.html
+      format.json { render json: messages_react_params(@messages) }
+    end
   end
   
   def create
-    conversation = current_user.conversations.find(params[:conversation_id])
-    receiver = conversation.companion(current_user)
-    message = Message.new(permitted_params.merge(sender: current_user, receiver: receiver))
-    conversation.messages << message
-    redirect_to conversation_messages_path(params[:conversation_id])
+    @conversation = current_user.conversations.find(params[:conversation_id])
+    receiver = @conversation.companion(current_user)
+    message = Message.new(sender: current_user, receiver: receiver, text: params[:text])
+    @conversation.messages << message
+    
+    render json: messages_react_params(load_messages.reload)
   end
   
   def mark_read
@@ -18,7 +25,12 @@ class MessagesController < ApplicationController
     render json: { success: true }
   end
   
-  def permitted_params
-    params.require(:message).permit(:text)
+  private
+  
+  def load_messages
+    scope = @conversation.messages.includes(:sender, :receiver)
+    scope = scope.where('id < ?', params[:oldest_id]) if params[:oldest_id].present?
+    scope = scope.where('id > ?', params[:last_id]) if params[:last_id].present?
+    scope.limit(10)
   end
 end

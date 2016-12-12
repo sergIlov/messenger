@@ -17,6 +17,8 @@ class Message < ApplicationRecord
   belongs_to :receiver, class_name: 'User'
   belongs_to :conversation, inverse_of: :messages, touch: true
   
+  validates :text, :sender, :receiver, :conversation, presence: true
+  
   default_scope proc { order(created_at: :desc) }
   scope :unreaded, proc { where(is_read: false) }
   

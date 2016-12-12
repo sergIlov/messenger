@@ -14,9 +14,6 @@
       .panel-heading
         h4 = t('Conversations')
       .panel-body
-        == react_component('ConversationsList', conversations: conversations_react_params(@conversations))
-
-
-        == render @conversations
         .btn-group
           a.btn.btn-default href=new_conversation_path = t('Start new conversation')
+        == react_component('ConversationsList', conversations_list_react_params(@conversations))

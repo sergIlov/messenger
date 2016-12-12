@@ -1,7 +1,12 @@
 class ConversationsController < ApplicationController
+  include ConversationsHelper
+  
   def index
-    @conversations = current_user.conversations.includes(:first_user, :second_user)
-    @new_messages = current_user.incoming_messages.unreaded
+    @conversations = load_conversations
+    respond_to do |format|
+      format.html { @new_messages = current_user.incoming_messages.unreaded }
+      format.json { render json: conversations_list_react_params(@conversations) }
+    end
   end
   
   def new
@@ -17,5 +22,11 @@ class ConversationsController < ApplicationController
     else
       render :new
     end
+  end
+  
+  private
+  
+  def load_conversations
+    current_user.conversations.includes(:first_user, :second_user).offset(params[:offset].to_i).order(updated_at: :desc).limit(10)
   end
 end

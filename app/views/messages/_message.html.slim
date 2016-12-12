@@ -1,8 +1,0 @@
-.list-group-item class=message_class(message) data=message_html_data(message)
-  h6.list-group-item-heading
-    = message.sender.email
-    .right = l message.created_at
-  p.list-group-item-text = message.text
-  - if local_variables.include?(:reply)
-    a href=conversation_messages_path(message.conversation) = t('Reply')
-
