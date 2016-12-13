@@ -4,8 +4,4 @@
       .panel-heading
         h4 = "Conversation with #{@conversation.companion(current_user).email}"
       .panel-body
-        /== render 'messages/form', conversation: @conversation
-
-        == react_component('MessagesList', messages_react_params(@messages))
-
-        /.list-group == render @messages
+        == react_component('MessagesPanel', messages_react_params(@messages))

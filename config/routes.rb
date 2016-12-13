@@ -13,5 +13,9 @@ Rails.application.routes.draw do
     get :autocomplete_user_email, on: :collection
   end
   
+  resources :messages, only: [] do
+    get :unread, on: :collection, format: :json
+  end
+  
   root to: 'default#show'
 end

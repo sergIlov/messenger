@@ -1,5 +1,7 @@
 class MessagesController < ApplicationController
   include MessagesHelper
+
+  before_action :authenticate_user!
   
   def index
     @conversation = current_user.conversations.find(params[:conversation_id])
@@ -8,6 +10,10 @@ class MessagesController < ApplicationController
       format.html
       format.json { render json: messages_react_params(@messages) }
     end
+  end
+  
+  def unread
+    render json: messages_react_params(load_messages, recent: true)
   end
   
   def create
@@ -28,7 +34,8 @@ class MessagesController < ApplicationController
   private
   
   def load_messages
-    scope = @conversation.messages.includes(:sender, :receiver)
+    scope = @conversation.present? ? @conversation.messages : current_user.incoming_messages.includes(:sender).unread
+    scope = scope.includes(:sender, :receiver)
     scope = scope.where('id < ?', params[:oldest_id]) if params[:oldest_id].present?
     scope = scope.where('id > ?', params[:last_id]) if params[:last_id].present?
     scope.limit(10)

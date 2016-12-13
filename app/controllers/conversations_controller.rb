@@ -1,10 +1,12 @@
 class ConversationsController < ApplicationController
   include ConversationsHelper
-  
+
+  before_action :authenticate_user!
+
   def index
     @conversations = load_conversations
     respond_to do |format|
-      format.html { @new_messages = current_user.incoming_messages.unreaded }
+      format.html { @new_messages = current_user.incoming_messages.unread }
       format.json { render json: conversations_list_react_params(@conversations) }
     end
   end

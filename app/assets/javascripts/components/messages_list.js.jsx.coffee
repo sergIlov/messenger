@@ -1,67 +1,13 @@
 @MessagesList = React.createClass
-  getInitialState: ->
-    messages: @props.messages
-    reply: @props.reply
-    loadMorePath: @props.loadMorePath
-    loadNewPath: @props.loadNewPath
-    createMessagePath: @props.createMessagePath
-    loading: false
-    historyLoading: false
-
-  componentDidMount: ->
-    @scheduleUpdate()
-
   getMessages: ->
-    that = this
-    @state.messages.map (message) ->
-      `<Message key={message.id} message={message} reply={that.state.reply}/>`
-
-  getLoadHistoryLink: ->
-    `<div className="btn-group">
-      <button className="btn btn-default" disabled={this.state.historyLoading} onClick={this.handleLoadMoreClick}>load more</button>
-    </div>`
-
-  getLoadNewMessagesLink: ->
-    `<div className="btn-group">
-      <button className="btn btn-default" disabled={this.state.loading} onClick={this.handleLoadNewMessagesClick}>refresh</button>
-    </div>`
-
-  handleLoadMoreClick: ->
-    @setState(loading: true)
-    $.get @state.loadMorePath, (data) =>
-      @setState
-        messages: @state.messages.concat data.messages
-        loadMorePath: data.loadMorePath
-        loading: false
-
-  handleLoadNewMessagesClick: ->
-    @loadNewMessages()
-
-  loadNewMessages: ->
-    @setState(loading: true)
-    $.get @state.loadNewPath, @onNewMessage
-
-  scheduleUpdate: ->
-    clearTimeout @timeout if @timeout?
-    @timeout = setTimeout @loadNewMessages, 5000
-
-  onNewMessage: (data) ->
-    @scheduleUpdate()
-    if data.messages?
-      @setState
-        messages: data.messages.concat @state.messages
-        loadNewPath: data.loadNewPath
-        createMessagePath: data.createMessagePath
-        loading: false
+    reply = @props.recent
+    if @props.messages.length
+      @props.messages.map (message) ->
+        `<Message key={message.id} message={message} reply={reply}/>`
     else
-      @setState loading: false
+      'You dont have new messages'
 
   render: ->
-    `<div>
-      <MessageForm path={this.state.createMessagePath} onNewMessage={this.onNewMessage}/>
-      {this.getLoadNewMessagesLink()}
-      <div className="list-group">
-        {this.getMessages()}
-      </div>
-      {this.getLoadHistoryLink()}
+    `<div className="list-group">
+      {this.getMessages()}
     </div>`

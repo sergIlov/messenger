@@ -25,11 +25,12 @@
     else
       ''
 
-  render: ->
-    conversations = @state.conversations.map (conversation) ->
+  getConversations: ->
+    @state.conversations.map (conversation) ->
       `<ConversationsListRow key={conversation.id} conversation={conversation}/>`
 
+  render: ->
     `<div>
-      <div className="list-group">{conversations}</div>
+      <div className="list-group">{this.getConversations()}</div>
       {this.actions()}
     </div>`

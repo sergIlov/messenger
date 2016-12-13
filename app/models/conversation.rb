@@ -8,9 +8,6 @@
 #
 
 class Conversation < ApplicationRecord
-  # has_many :user_conversations
-  # has_many :users, through: :user_conversations
-  
   belongs_to :first_user, class_name: 'User'
   belongs_to :second_user, class_name: 'User'
   has_many :messages, inverse_of: :conversation

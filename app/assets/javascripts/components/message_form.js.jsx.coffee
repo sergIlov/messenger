@@ -11,7 +11,6 @@
     else
       alert('Message cannot be empty')
 
-
   render: ->
     `<div className="form-group">
       <div className="from-group">

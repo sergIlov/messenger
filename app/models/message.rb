@@ -20,7 +20,7 @@ class Message < ApplicationRecord
   validates :text, :sender, :receiver, :conversation, presence: true
   
   default_scope proc { order(created_at: :desc) }
-  scope :unreaded, proc { where(is_read: false) }
+  scope :unread, proc { where(is_read: false) }
   
   def is_new_for?(user)
     !is_read && user != sender

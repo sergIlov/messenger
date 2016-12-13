@@ -6,13 +6,13 @@
     reply: @props.reply
     isRead: @props.message.isRead
     type: @props.message.type
-    replyPath: ''
     markReadPath: @props.message.markReadPath
+    replyPath: @props.message.replyPath
     loading: false
 
   getReplyLink: ->
     if @state.reply
-      `<a href="#">Reply</a>`
+      `<a href={this.state.replyPath}>Reply</a>`
     else
       ''
 
